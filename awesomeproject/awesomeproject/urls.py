@@ -15,9 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from sudentapp.views import index
+from sudentapp.views import index,hello
 
 urlpatterns = [
-    path('hello/',index),
+    path('',index),
+    path('hello/',hello),
+    path('docs/5.1/layout/containers/',hello),
     path('admin/', admin.site.urls),
 ]

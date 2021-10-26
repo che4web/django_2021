@@ -1,0 +1,23 @@
+{% extends "base.html"%}
+
+{%block some_name%}
+ это сайт про еду
+ {{ request.user }}
+ {% if request.user %}
+ Пользователь авторизован
+ {%endif%}
+ <ol>
+ {%  for item in some_list%}
+ <li> {{item}} </li >
+ {%endfor%}
+ </ol>
+
+ {{hello_from_context}}
+
+ <div >
+     <b> {{obj}}</b>
+     <i> {{obj.say}}</i>
+     </div>
+
+    {%include "time.html"%}
+{%endblock%}
