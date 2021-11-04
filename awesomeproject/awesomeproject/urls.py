@@ -14,12 +14,17 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-from sudentapp.views import index,hello
+from django.urls import path,re_path
+from sudentapp.views import index,hello,dish_detail,dish_detail_slug
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('',index),
-    path('hello/',hello),
+    path('dish/',hello,name="dish-list"),
+    path('catalog/dish/<int:pk>/',dish_detail,name="dish-detail"),
+    re_path('catalog/dish/(?P<slug>[-a-zA-Z0-9_]+)/$',dish_detail_slug,name="dish-detail-slug"),
     path('docs/5.1/layout/containers/',hello),
     path('admin/', admin.site.urls),
 ]
+urlpatterns+=static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

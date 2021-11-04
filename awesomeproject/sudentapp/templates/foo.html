@@ -7,7 +7,9 @@
             <thead>
                 <tr>
                     <th>  id</th>
+                    <th>  </th>
                     <th>  name </th>
+                    <th> Тип </th>
                     <th> время готовки </th>
                     <th>  </th>
                 </tr>
@@ -15,10 +17,19 @@
             {% for dish in dish_list%}
             <tr> 
                 <td> {{dish.id}} </td>
-                <td>{{dish.name}} </td>
+                <td> 
+                    {% if dish.photo%}
+                    <img src="{{dish.photo.url}}">
+                    {%else %}
+                    фото нет
+                    {%endif%}
+
+                </td>
+                <td> <a href="{{ dish.get_absolute_url }}">{{dish.name}} </a> </td>
+                <td>{{dish.get_typ_display}} </td>
                 <td>  {{dish.cooking_time}} </td>
-                <td>  {%for  food in dish.food_set.all %} 
-                    <div> {{food.name }}|  {{food.quantity}}</div>
+                <td>  {%for  ing in dish.ingredient_set.all %} 
+                    <div> {{ing.food.name }}|  {{ing.quantity}}</div>
                     {%endfor%}
                 </td>
             </tr>
