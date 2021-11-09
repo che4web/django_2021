@@ -3,6 +3,7 @@ from sudentapp.models import Dish
 from django.http import HttpResponse
 from django.template import Template,RequestContext
 from datetime import datetime as dt
+from django.views.generic import TemplateView
 
 class myCls:
     name =' для теста'
@@ -21,28 +22,18 @@ def hello(request):
                    "some_test":" это переменная на питонке"
                    })
 
-def dish_detail(request,pk):
+def dish_detail(request,pk,some_text=''):
     dish = Dish.objects.get(pk=pk)
 
     return render(request,'dish_detail.html',
                   {'bar':dt.now,
-                   "object":dish
+                   "object":dish,
+                   "some_text":some_text,
                    })
-
-
-def dish_detail_slug(request,slug):
-    dish = Dish.objects.get(slug=slug)
-
-    return render(request,'dish_detail.html',
-                  {'bar':dt.now,
-                   "object":dish
-                   })
-
-
-
 
 def index(request):
-    return render(request,'index.html', {'hello_from_context':"<b>HELLO</b>",
-                                         'obj':myCls(),
-                                         'some_list':['картошка','лук','Грибы']
-                                         })
+    return render(request,'index.html',{})
+
+class IndexView(TemplateView):
+    template_name = "index.html"
+

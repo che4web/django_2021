@@ -24,7 +24,7 @@ class Dish(models.Model):
         ordering = ['-name','cooking_time']
 
     def get_absolute_url(self):
-        return reverse('dish-detail-slug',kwargs={'slug':self.slug})
+        return reverse('dish-detail',kwargs={'pk':self.pk})
         #return reverse('dish-detail',kwargs={'pk':self.id})
 
     def save(self,*args,**kwargs):
