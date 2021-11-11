@@ -1,7 +1,9 @@
 from django.urls import path
-from sudentapp.views import index,hello,dish_detail
+from sudentapp.views import DishListView,DishDetailView,DishCreateView,create_view
 
 urlpatterns = [
-    path('',hello,name="dish-list"),
-    path('<int:pk>/',dish_detail,name="dish-detail"),
+    path('',DishListView.as_view(),name="dish-list"),
+    #path('create',DishCreateView.as_view(),name="dish-create"),
+    path('create',create_view,name="dish-create"),
+    path('<int:pk>/class',DishDetailView.as_view(),name="dish-detail"),
 ]

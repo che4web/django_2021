@@ -3,8 +3,8 @@ from django.urls import reverse
 
 # Create your models here.
 class Dish(models.Model):
-    name = models.CharField(max_length=255,verbose_name="Название блюда")
-    slug = models.CharField(max_length=255,verbose_name="slug")
+    name = models.CharField(max_length=255,verbose_name="Название блюда",unique=True)
+    slug = models.CharField(max_length=255,verbose_name="slug",blank=True)
     recipe = models.TextField(verbose_name="Рецепт")
     cooking_time = models.IntegerField()
     TYP_CHOICES =(
@@ -18,6 +18,9 @@ class Dish(models.Model):
         return "hello "+self.name
     def __str__(self):
         return self.name
+    def get_photo_url(self):
+        return self.photo.url if self.photo else ''
+
     class Meta:
         verbose_name = "Блюдо"
         verbose_name_plural = "Блюда"
@@ -43,5 +46,11 @@ class Ingredient(models.Model):
     dish = models.ForeignKey(Dish,on_delete=models.CASCADE,null=True)
     food = models.ForeignKey(Food,on_delete=models.PROTECT,null=True)
     quantity = models.FloatField()
+    UNIT_CHOICE = (
+        ("KG",'килиграмм'),
+        ("G",'грамм'),
+        ("U",'штук'),
+    )
+    unit = models.CharField(max_length=2,choices=UNIT_CHOICE)
 
 

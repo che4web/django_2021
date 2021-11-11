@@ -1,0 +1,55 @@
+{% extends "base.html"%}
+
+{%block some_name%}
+<div class="row">
+    <div class="col-md-12">
+    <div class="card   dish_photo">
+        <img src="{{object.get_photo_url}}" class="card-img" alt="...">
+  <div class="card-img-overlay">
+      <h5 class="card-title">{{object.name}}</h5>
+    <p class="card-text"></p>
+    <p class="card-text"></p>
+  </div>
+</div>
+</div>
+</div>
+
+
+
+<div class="ingredient-row">
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title"> Ингрединеты</h5>
+                <ol>
+                    {%for item in object.ingredient_set.all%}
+                    <li>{{item.food.name}} -- {{item.quantity}} {{item.get_unit_display}}</li> 
+                    {%endfor%}
+                </ol>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title"> БЖУ</h5>
+                <ol>
+                    <li> Белки-- </li> 
+                    <li> Жиры- </li> 
+                    <li> Углеводы-- </li> 
+                    <li> Калории-- </li> 
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <h2>Рецепт</h2>
+<div>{{object.recipe|linebreaks}}</div>
+</div>
+</div>
+{%endblock%}

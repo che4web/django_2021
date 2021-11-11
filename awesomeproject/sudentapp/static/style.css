@@ -1,0 +1,15 @@
+.ingredient-row{
+    margin: 60px 0;
+}
+.dish_photo{
+height: 524px;
+overflow: hidden;
+}
+.dish_photo .card-title{
+    font-size:9rem;
+    margin-left:180px
+}
+.dish_preview{
+    height:100px;
+}
+

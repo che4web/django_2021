@@ -1,0 +1,45 @@
+{% extends "base.html"%}
+
+{%block some_name%}
+<div class="row">
+    <div class="col-md-12">
+        <form method="POST" >
+        <div class="mb-3 row">
+            <label  class="col-sm-2 col-form-label">Название </label>
+            <div class="col-sm-10">
+                <input value="{{name}}" name="name" class="form-control">
+            </div>
+        </div>
+        {{error}}
+        <div class="mb-3 row">
+            <label  class="col-sm-2 col-form-label">Рецеп</label>
+            <div class="col-sm-10">
+                <textarea  name="recipe" class="form-control">{{recipe}}</textarea>
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <label  class="col-sm-2 col-form-label">Время приготовления</label>
+            <div class="col-sm-10">
+                <input name="cooking_time" class="form-control" value="{{cooking_time}}">
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <label  class="col-sm-2 col-form-label">Тип блюда</label>
+            <div class="col-sm-10">
+                <select name="typ" class="form-control">
+                    <option value="S"> Суп</option>
+                    <option value="G"> Гарнир</option>
+                </select>
+            </div>
+        </div>
+
+
+        {% csrf_token %}
+        <button class="btn btn-primary"> сохранить</button>
+        </form>
+        </div>
+        <h1> НОВЫЙ ДИШ {{dish}}</h1>
+</div>
+
+
+{%endblock%}
