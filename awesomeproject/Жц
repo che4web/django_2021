@@ -1,0 +1,4 @@
+def some_add_conter(request):
+    return {
+        'foo':"Это дополнительрный контект для все view"
+    }
