@@ -34,10 +34,11 @@ def create_view(request):
             context['dish'] =dish
         return render(request,'sudentapp/dish_form.html',context)
 
+
 class DishDetailView(DetailView):
     model = Dish
-    def get_context_date(self,*args,**kwargs):
-        context = super().get_CreateViewcontext_date(*args,**kwargs)
+    def get_context_data(self,*args,**kwargs):
+        context = super().get_context_data(*args,**kwargs)
         context['bar']=dt.now
         return context
 

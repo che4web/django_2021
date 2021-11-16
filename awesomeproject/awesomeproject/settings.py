@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'sudentapp',
+    'storageapp',
     'django_extensions',
 ]
 
