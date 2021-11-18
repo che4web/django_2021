@@ -25,6 +25,9 @@ class Dish(models.Model):
         verbose_name = "Блюдо"
         verbose_name_plural = "Блюда"
         ordering = ['-name','cooking_time']
+        permissions = [
+            ("my_permission","Это мое особое разрешение"),
+        ]
 
     def get_absolute_url(self):
         return reverse('dish-detail',kwargs={'pk':self.pk})

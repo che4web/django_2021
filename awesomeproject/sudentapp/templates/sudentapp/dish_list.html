@@ -32,6 +32,9 @@
                     <div> {{ing.food.name }}|  {{ing.quantity}}</div>
                     {%endfor%}
                 </td>
+                <td>
+                    <a href="{%url 'dish-update' dish.id%}"> изменить</a>
+                </td>
             </tr>
             {%endfor%}
         </table >

@@ -4,34 +4,28 @@ from django.http import HttpResponse
 from django.template import Template,RequestContext
 from datetime import datetime as dt
 from django.views.generic import TemplateView,ListView,DetailView
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView,UpdateView
+from sudentapp.forms import  DishForm,DishFormModel
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 def index(request):
     return render(request,'index.html',{})
 
+@login_required
 def create_view(request):
     if request.method == 'GET':
-        return render(request,'sudentapp/dish_form.html',{})
+        form = DishFormModel()
+        return render(request,'sudentapp/dish_form.html',{'form':form})
     elif request.method == 'POST':
         context={}
-        name = request.POST['name']
-        recipe= request.POST['recipe']
-        cooking_time = request.POST['cooking_time']
-        typ = request.POST['typ']
-        if Dish.objects.filter(name=name).exists():
-            context['error'] = "Такое блюдо уж есть"
-            context['name'] = name
-            context['recipe'] = recipe
-            context['cooking_time'] = cooking_time
-        else:
-            dish = Dish(
-                name=name,
-                recipe=recipe,
-                cooking_time=cooking_time,
-                typ=typ
-            )
-            dish.save()
+        form = DishFormModel(request.POST)
+        context['form'] =form
+        if form.is_valid():
+            dish = form.save()
             context['dish'] =dish
+        else:
+            pass
         return render(request,'sudentapp/dish_form.html',context)
 
 
@@ -42,10 +36,17 @@ class DishDetailView(DetailView):
         context['bar']=dt.now
         return context
 
-class DishListView(ListView):
+class ProtectListView(LoginRequiredMixin,ListView):
+    pass
+
+class DishListView(ProtectListView):
     model = Dish
 
 class DishCreateView(CreateView):
+    model = Dish
+    fields = "__all__"
+
+class DishUpdateView(UpdateView):
     model = Dish
     fields = "__all__"
 

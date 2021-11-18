@@ -37,6 +37,12 @@
         {% csrf_token %}
         <button class="btn btn-primary"> сохранить</button>
         </form>
+
+        <form method="POST" >
+        {% csrf_token %}
+        {{form.as_p}}
+        <button class="btn btn-primary"> сохранить2</button>
+        </form>
         </div>
         <h1> НОВЫЙ ДИШ {{dish}}</h1>
 </div>

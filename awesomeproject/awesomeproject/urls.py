@@ -19,8 +19,11 @@ from sudentapp.views import IndexView
 from django.conf import settings
 from django.conf.urls.static import static
 
+from  django.contrib.auth.views import LoginView
+
 urlpatterns = [
     path('',IndexView.as_view()),
+    path('accounts/login/',LoginView.as_view(template_name="login.html"),name="login"),
     path('dish/',include("sudentapp.urls")),
     path('admin/', admin.site.urls),
 ]
