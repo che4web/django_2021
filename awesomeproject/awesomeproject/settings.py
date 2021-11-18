@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'sudentapp',
     'storageapp',
     'django_extensions',
+    'easy_thumbnails',
 ]
 
 MIDDLEWARE = [
@@ -73,7 +74,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'awesomeproject.wsgi.application'
 
-
+THUMBNAIL_ALIASES={
+    '':{
+        'card':{'size':(340,227),'crop':True},
+        'big':{'size':(1290,860),'crop':True},
+    }
+}
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 

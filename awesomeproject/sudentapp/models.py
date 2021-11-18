@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from easy_thumbnails.fields import ThumbnailerImageField
 
 # Create your models here.
 class Dish(models.Model):
@@ -12,14 +13,14 @@ class Dish(models.Model):
         ("G",'Гарнир'),
     )
     typ = models.CharField(max_length=2,choices=TYP_CHOICES)
-    photo  = models.ImageField(blank=True,null=True)
+    photo  = ThumbnailerImageField(blank=True,null=True)
 
     def some_f(self):
         return "hello "+self.name
     def __str__(self):
         return self.name
     def get_photo_url(self):
-        return self.photo.url if self.photo else ''
+        return self.photo['big'].url if self.photo else ''
 
     class Meta:
         verbose_name = "Блюдо"
@@ -56,4 +57,7 @@ class Ingredient(models.Model):
     )
     unit = models.CharField(max_length=2,choices=UNIT_CHOICE)
 
+from easy_thumbnails.signals import saved_file
+from easy_thumbnails.signal_handlers import generate_aliases_global
 
+saved_file.connect(generate_aliases_global)
