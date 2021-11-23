@@ -33,6 +33,21 @@ class DishDetailView(DetailView):
     model = Dish
     def get_context_data(self,*args,**kwargs):
         context = super().get_context_data(*args,**kwargs)
+        obj = self.get_object()
+        ingredients = obj.ingredient_set.all()
+        pfc= {
+            'protein':0,
+            'fat':0,
+            'carbohydrate':0,
+            'energy':0,
+        }
+        for i in ingredients:
+            pfc['protein']+=i.quantity*float(i.food.protein)
+            pfc['fat']+=i.quantity*float(i.food.fat)
+            pfc['energy']+=i.quantity*float(i.food.energy)
+            pfc['carbohydrate']+=i.quantity*float(i.food.carbohydrate)
+
+        context['pfc']=pfc
         context['bar']=dt.now
         return context
 
