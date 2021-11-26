@@ -43,10 +43,10 @@ class Dish(models.Model):
 
 class Food(models.Model):
     name = models.CharField(max_length=255,verbose_name="Название продукта")
-    protein = models.DecimalField(default=0,max_digits=12,decimal_places=2,verbose_name="Протеинов на 100г")
-    fat = models.DecimalField(default=0, max_digits=12,decimal_places=2,verbose_name="Жиров на 100г")
-    carbohydrate = models.DecimalField(default=0, max_digits=12,decimal_places=2,verbose_name="Жиров на 100г")
-    energy  =  models.DecimalField(default=0,max_digits=12,decimal_places=2,verbose_name="ккал на 100г")
+    protein = models.FloatField(default=0,verbose_name="Протеинов на 100г")
+    fat = models.FloatField(default=0,verbose_name="Жиров на 100г")
+    carbohydrate = models.FloatField(default=0,verbose_name="Жиров на 100г")
+    energy  =  models.FloatField(default=0,verbose_name="ккал на 100г")
     def __str__(self):
         return self.name
 

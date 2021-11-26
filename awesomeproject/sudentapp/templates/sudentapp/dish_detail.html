@@ -23,14 +23,14 @@
             <div class="card-body">
                 <h5 class="card-title"> Ингрединеты</h5>
                 <ol>
-                    {%for item in object.ingredient_set.all%}
-                    <li>{{item.food.name}} -- {{item.quantity}} {{item.get_unit_display}}</li> 
+                    {%for item in ingredients%}
+                    <li>{{item.food.name}} -- {{item.quantity}} {{item.get_unit_display}} | {{item.energy }}</li> 
                     {%endfor%}
                 </ol>
             </div>
         </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-3">
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title"> БЖУ</h5>
@@ -39,6 +39,20 @@
                     <li> Жиры- {{pfc.fat}}</li> 
                     <li> Углеводы-- {{pfc.carbohydrate}} </li> 
                     <li> Калории--  {{pfc.energy}}</li> 
+                </ol>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title"> БЖУ aggr</h5>
+                <ol>
+
+                    <li> Белки-- {{pfc_aggr.p}} </li> 
+                    <li> Жиры- {{pfc_aggr.f}}</li> 
+                    <li> Углеводы-- {{pfc_aggr.c}} </li> 
+                    <li> Калории--  {{pfc_aggr.e}}</li> 
                 </ol>
             </div>
         </div>

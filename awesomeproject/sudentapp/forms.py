@@ -1,5 +1,9 @@
 from django import forms
 from sudentapp.models import Dish
+
+class DishSearchForm(forms.Form):
+    name = forms.CharField(max_length=255,)
+
 class DishForm(forms.Form):
     name = forms.CharField(max_length=255,)
     slug = forms.CharField(max_length=255)

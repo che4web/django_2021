@@ -1,14 +1,22 @@
 {% extends "base.html"%}
 
 {%block some_name%}
+
+
 <div class="row">
     <div class="col-md-10 col-sm-12">
         <div class="row row-cols-1  row-cols-sm-2 row-cols-md-3 g-4">
+            <form method="GET">
+                <input name="name" value="{{name}}" lass="form-control" id='searchInput'>
+                <button class="btn btn-primary" id="searchButton"> поиск</button>
+                </form>
+                </div>
+        <div class="row row-cols-1  row-cols-sm-2 row-cols-md-3 g-4" id="cardArea">
             {% for dish in object_list%}
             <div class="col">
-                <div class="card h-100" > 
+                <div class="card h-100" name="dish_id_{{dish.id}}" some_att="{{dish.id}}"  > 
                     {% if dish.photo%}
-                    <img class="card-img-top" src="{{dish.photo.card.url}}">
+                    <img class="card-img-top" src="{{dish.photo.card.url}}" onclick="alert ('img' )">
                     {%else %}
                     фото нет
                     {%endif%}
@@ -23,14 +31,42 @@
                         </p>
                         <a href="{%url 'dish-update' dish.id%}"> изменить</a>
                         </td>
-                        <a href=" {{ dish.get_absolute_url }}" class="btn btn-primary">подробнее</a>
+                        <a  onclick ="return false" href=" {{ dish.get_absolute_url }}" class="btn btn-primary">подробнее</a>
                     </div>
                 </div>
             </div>
             {%endfor%}
         </div>
-        <a href="{% url 'dish-create'%}" class="btn btn-primary"> Добавить</a>
+        <!-- <a href="{% url 'dish-create'%}" class="btn btn-primary"> Добавить</a> -->
     </div>
 
 </div>
+<script>
+async function search(){
+
+    let  inp = document.getElementById('searchInput')
+    let params = new URLSearchParams({
+                name: inp.value
+            })
+    let response = await fetch('http://127.0.0.1:8000/dish/json/?'+ params)
+    let data  = await response.json()
+
+    let  ar = document.getElementById('cardArea')
+    ar.innerHTML=''
+    for(let el of data){
+        let newEl = document.createElement('div')
+        newEl.innerHTML=el.name
+        ar.appendChild(newEl)
+    }
+        
+    return false
+    }
+let btn = document.getElementById('searchButton')
+btn.onclick=search
+
+let inp = document.getElementById('searchInput')
+inp.oninput=search
+
+</script>
+
 {%endblock%}
