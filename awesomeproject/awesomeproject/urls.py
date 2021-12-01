@@ -20,8 +20,14 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from  django.contrib.auth.views import LoginView
+from rest_framework.routers import DefaultRouter
+from sudentapp.views import DishViewSet
+
+router = DefaultRouter()
+router.register(r'dish', DishViewSet)
 
 urlpatterns = [
+    path('api/', include(router.urls)),
     path('',IndexView.as_view()),
     path('accounts/login/',LoginView.as_view(template_name="login.html"),name="login"),
     path('dish/',include("sudentapp.urls")),

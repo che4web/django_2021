@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from sudentapp.models import Dish
+from sudentapp.models import Dish,Food
 from django.http import HttpResponse,JsonResponse
 from django.template import Template,RequestContext
 from datetime import datetime as dt
@@ -10,6 +10,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from django.db.models import Sum,F
+from sudentapp.serializers import DishSerializer
 
 def index(request):
     return render(request,'index.html',{})
@@ -35,8 +36,45 @@ def dish_list_json(request):
     form  = DishSearchForm(request.GET)
     if form.is_valid():
         queruset = queruset.filter(name__icontains=form.cleaned_data['name'])
-    ret = list(queruset.values('id','name','recipe'))
+    #ret = list(queruset.values('id','name','recipe','cooking_time','typ'))
+    ret =[]
+    for dish in queruset:
+        ret.append({
+            'id':dish.id,
+            'name':dish.name,
+            'recipe':dish.recipe,
+            'cooking_time':dish.cooking_time,
+            'get_typ_display':dish.get_typ_display(),
+            'photo':dish.photo['card'].url if dish.photo else '',
+            'is_like': dish.like.filter(id=request.user.id).exists()
+
+        })
     return JsonResponse(ret,safe=False)
+
+def food_list_json(request):
+    queruset = Food.objects.all()
+    ret =[]
+    for food in queruset:
+        ret.append({
+            'id':food.id,
+            'name':food.name,
+        })
+    return JsonResponse(ret,safe=False)
+import json
+
+def like(request):
+    data =(json.loads(request.body))
+    pk = data['pk']
+    d = Dish.objects.get(id=pk)
+    d.like.add(request.user)
+    d.save()
+
+    return JsonResponse(request.POST,safe=False)
+
+
+
+
+
 
 class DishDetailView(DetailView):
     model = Dish
@@ -84,6 +122,7 @@ class DishListView(ProtectListView):
     def get_context_data(self,*args,**kwargs):
         context = super().get_context_data(*args,**kwargs)
         context['name'] = self.request.GET.get('name')
+        context['food_list'] = Food.objects.all()
         return context
 
     def get_queryset(self):
@@ -105,3 +144,8 @@ class DishUpdateView(UpdateView):
 class IndexView(TemplateView):
     template_name = "index.html"
 
+from rest_framework import viewsets
+
+class DishViewSet(viewsets.ModelViewSet):
+    queryset = Dish.objects.all()
+    serializer_class = DishSerializer

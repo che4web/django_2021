@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'storageapp',
     'django_extensions',
     'easy_thumbnails',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [

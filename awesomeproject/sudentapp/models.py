@@ -1,7 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from easy_thumbnails.fields import ThumbnailerImageField
-
+from django.contrib.auth.models  import User
 # Create your models here.
 class Dish(models.Model):
     name = models.CharField(max_length=255,verbose_name="Название блюда",unique=True)
@@ -14,6 +14,9 @@ class Dish(models.Model):
     )
     typ = models.CharField(max_length=2,choices=TYP_CHOICES)
     photo  = ThumbnailerImageField(blank=True,null=True)
+    like = models.ManyToManyField(User)
+    def foo(self):
+        return Food.objects.filter(asdop)
 
     def some_f(self):
         return "hello "+self.name
@@ -39,6 +42,8 @@ class Dish(models.Model):
         ret = super().save(*args,**kwargs)
         print("afret real save")
         return ret
+
+
 
 
 class Food(models.Model):
