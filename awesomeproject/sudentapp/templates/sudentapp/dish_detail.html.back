@@ -1,0 +1,22 @@
+{% extends "base.html"%}
+
+{%block some_name%}
+
+
+<div class="row">
+    <div class="col-md-10 col-sm-12">
+        <div class="row row-cols-1  row-cols-sm-2 row-cols-md-3 g-4">
+            <form method="GET">
+                <input name="name" value="{{name}}" lass="form-control" id='searchInput'>
+                <button class="btn btn-primary" id="searchButton"> поиск</button>
+
+                </form>
+                <button class="btn btn-primary" id="borsch"> Борсч </button>
+                </div>
+        <div class="row row-cols-1  row-cols-sm-2 row-cols-md-3 g-4" id="cardArea">
+        </div>
+        <div class="row row-cols-1  row-cols-sm-2 row-cols-md-3 g-4" id="food_aread">
+        </div>
+    </div>
+</div>
+{%endblock%}

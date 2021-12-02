@@ -80,4 +80,13 @@ async function searchFood(){
     }
 searchFood()
 
+function borsch(){
+    let  inp = document.getElementById('searchInput')
+    inp.value="Борсч"
+    search()
+    
+}
+
+inp = document.getElementById('borsch')
+inp.onclick= borsch
 

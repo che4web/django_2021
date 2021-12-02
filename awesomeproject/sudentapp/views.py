@@ -148,4 +148,17 @@ from rest_framework import viewsets
 
 class DishViewSet(viewsets.ModelViewSet):
     queryset = Dish.objects.all()
+
     serializer_class = DishSerializer
+
+    def get_queryset(self):
+        queruset = super().get_queryset()
+        queruset = Dish.objects.all()
+        form  = DishSearchForm(self.request.GET)
+        if form.is_valid():
+            queruset = queruset.filter(name__icontains=form.cleaned_data['name'])
+
+        return queruset
+
+
+
