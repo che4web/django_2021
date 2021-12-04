@@ -69,7 +69,7 @@ def like(request):
     d.like.add(request.user)
     d.save()
 
-    return JsonResponse(request.POST,safe=False)
+    return JsonResponse({'status':'OK'})
 
 
 
