@@ -1,35 +1,34 @@
 {% extends "base.html"%}
 
 {%block some_name%}
-
-
 <div class="row">
     <div class="col-md-10 col-sm-12">
         <div class="row row-cols-1  row-cols-sm-2 row-cols-md-3 g-4">
-            <form method="GET">
-                <input name="name" value="{{name}}" lass="form-control" id='searchInput'>
-                <button class="btn btn-primary" id="searchButton"> поиск</button>
-
-                </form>
-                <button class="btn btn-primary" id="borsch"> Борсч </button>
+            {% for dish in object_list%}
+            <div class="col">
+                <div class="card h-100" > 
+                    {% if dish.photo%}
+                    <img class="card-img-top" src="{{dish.photo.card.url}}">
+                    {%else %}
+                    фото нет
+                    {%endif%}
+                    <div class="card-body">
+                        <h5 class="card-title"> {{dish.name}}</h5>
+                        <p>{{dish.get_typ_display}} </p>
+                        <p>  {{dish.cooking_time}} </p>
+                        <p>  {%for  ing in dish.ingredient_set.all %} 
+                        <div> {{ing.food.name }}|  {{ing.quantity}}</div>
+                        {%endfor%}
+                        {% lorem 1 p %} 
+                        </p>
+                        </td>
+                        <a href=" {{ dish.get_absolute_url }}" class="btn btn-primary">подробнее</a>
+                    </div>
                 </div>
-
-
-{% verbatim %}
-<div id="app">
-    <input name="name" v-model="message"  v-on:input="getDish" class="form-control" id='searchInput'>
-     {{ message }} 
-    <button class="btn btn-primary" v-on:click="getDish"> поиск</button>
-<div class="row row-cols-1  row-cols-sm-2 row-cols-md-3 g-4" id="cardArea">
-
-    <div v-for="dish in dishList">
-        <dish-card :dish="dish"></dish-card>
+            </div>
+            {%endfor%}
+        </div>
     </div>
-    </div>
+
 </div>
-{% endverbatim%}
-    </div>
-</div>
-<script>
-    </script>
 {%endblock%}

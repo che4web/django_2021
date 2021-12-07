@@ -34,7 +34,7 @@ class Dish(models.Model):
         ]
 
     def get_absolute_url(self):
-        return reverse('dish-detail',kwargs={'pk':self.pk})
+        return reverse('dish-detail0',kwargs={'pk':self.pk})
         #return reverse('dish-detail',kwargs={'pk':self.id})
 
     def save(self,*args,**kwargs):
