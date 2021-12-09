@@ -21,10 +21,11 @@ from django.conf.urls.static import static
 
 from  django.contrib.auth.views import LoginView
 from rest_framework.routers import DefaultRouter
-from sudentapp.views import DishViewSet
+from sudentapp.views import DishViewSet,IngredientViewSet
 
 router = DefaultRouter()
 router.register(r'dish', DishViewSet)
+router.register(r'ingredient',IngredientViewSet)
 
 urlpatterns = [
     path('api/', include(router.urls)),

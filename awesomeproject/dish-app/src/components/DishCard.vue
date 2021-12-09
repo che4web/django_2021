@@ -1,5 +1,5 @@
 <template lang="pug">
-    .col
+    .col(@click="toDetail")
         .class.card.h-100 
                 img(class="card-img-top" :src="dish.photo")
                 span фото нет
@@ -17,6 +17,9 @@ export default {
     name:'dish-card',
     props: ['dish'],
     methods:{
+        toDetail(){
+            this.$router.push({"name":'dish-detail',params:{id:this.dish.id}})
+        },
        async  like(){
        let  response =  await  fetch('http://127.0.0.1:8000/dish/like/', {
                                         method: 'POST',

@@ -66,4 +66,22 @@
 <div>{{object.recipe|linebreaks}}</div>
 </div>
 </div>
+<script>
+
+        const chatSocket = new WebSocket(
+            'ws://'
+            + window.location.host
+            + '/ws/chat/'
+            + 'test_channel'
+            + '/'
+        );
+
+        chatSocket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            alert(e)
+        };
+          chatSocket.send(JSON.stringify({
+                'message': "test"
+            }));
+</script>
 {%endblock%}

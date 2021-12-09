@@ -15,6 +15,22 @@ class Dish(models.Model):
     typ = models.CharField(max_length=2,choices=TYP_CHOICES)
     photo  = ThumbnailerImageField(blank=True,null=True)
     like = models.ManyToManyField(User)
+
+    def pfc(self):
+        ingredients = self.ingredient_set.all()
+        pfc= {
+            'protein':0,
+            'fat':0,
+            'carbohydrate':0,
+            'energy':0,
+        }
+        for i in ingredients:
+            pfc['protein']+=i.quantity*float(i.food.protein)
+            pfc['fat']+=i.quantity*float(i.food.fat)
+            pfc['energy']+=i.quantity*float(i.food.energy)
+            pfc['carbohydrate']+=i.quantity*float(i.food.carbohydrate)
+        return pfc
+
     def foo(self):
         return Food.objects.filter(asdop)
 
@@ -43,9 +59,6 @@ class Dish(models.Model):
         print("afret real save")
         return ret
 
-
-
-
 class Food(models.Model):
     name = models.CharField(max_length=255,verbose_name="Название продукта")
     protein = models.FloatField(default=0,verbose_name="Протеинов на 100г")
@@ -65,6 +78,10 @@ class Ingredient(models.Model):
         ("U",'штук'),
     )
     unit = models.CharField(max_length=2,choices=UNIT_CHOICE)
+
+    def food_name(self):
+        if self.food:
+            return self.food.name
 
 from easy_thumbnails.signals import saved_file
 from easy_thumbnails.signal_handlers import generate_aliases_global

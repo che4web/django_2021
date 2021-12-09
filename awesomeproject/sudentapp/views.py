@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from sudentapp.models import Dish,Food
+from sudentapp.models import Dish,Food,Ingredient
 from django.http import HttpResponse,JsonResponse
 from django.template import Template,RequestContext
 from datetime import datetime as dt
@@ -10,7 +10,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from django.db.models import Sum,F
-from sudentapp.serializers import DishSerializer
+from sudentapp.serializers import DishSerializer,IngredientSerializer
+from .tasks import some_task
 
 def index(request):
     return render(request,'index.html',{})
@@ -79,8 +80,11 @@ def like(request):
 class DishDetailView(DetailView):
     model = Dish
     def get_context_data(self,*args,**kwargs):
+        some_task.delay('text')
+
         context = super().get_context_data(*args,**kwargs)
         obj = self.get_object()
+
         ingredients = obj.ingredient_set.all()
         pfc= {
             'protein':0,
@@ -148,7 +152,6 @@ from rest_framework import viewsets
 
 class DishViewSet(viewsets.ModelViewSet):
     queryset = Dish.objects.all()
-
     serializer_class = DishSerializer
 
     def get_queryset(self):
@@ -159,6 +162,19 @@ class DishViewSet(viewsets.ModelViewSet):
             queruset = queruset.filter(name__icontains=form.cleaned_data['name'])
 
         return queruset
+
+
+class IngredientViewSet(viewsets.ModelViewSet):
+    queryset = Ingredient.objects.all()
+    serializer_class = IngredientSerializer
+
+    def get_queryset(self):
+        queruset = super().get_queryset()
+        dish_id = self.request.GET.get('dish','')
+        if dish_id:
+            queruset = queruset.filter(dish_id=dish_id)
+        return queruset
+
 
 
 
